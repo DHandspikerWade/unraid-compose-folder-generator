@@ -37,6 +37,10 @@ default_folder = {'name': '', 'icon': '', 'docker_preview': 'none', 'docker_prev
 for container in client.containers.list(all=True, filters={"label": "com.docker.compose.project"}):
     folder_key = folder_prefix + container.labels["com.docker.compose.project"]
 
+    # Skip one-off containers created by compose run
+    if "com.docker.compose.oneoff" in container.labels and container.labels["com.docker.compose.oneoff"].lower() == "true":
+        continue
+
     if not folder_key in folders:
         folders[folder_key] = copy.deepcopy(default_folder)
         folders[folder_key]["name"] = container.labels["com.docker.compose.project"]
