@@ -21,16 +21,15 @@ config = json.load(open(config_path))
 existing_config = toJSON(config)
 folders = {}
 
-for id, folder in config.get("folders").items():
-    if id.startswith(folder_prefix) > 1:
-        found_folder = list(folder)
+for id, folder in config.get("folders").copy().items():
+    if id.startswith(folder_prefix):
 
         # Clear children to handle garbage collection of old container names
-        found_folder["children"] = []
-        found_folder["regex"] = ""
-        found_folder["icon"] = ""
+        folder["children"] = []
+        folder["regex"] = ""
+        folder["icon"] = ""
 
-        folders[id] = found_folder
+        folders[id] = folder
         config.get("folders").pop(id)
 
 default_folder = {'name': '', 'icon': '', 'docker_preview': 'none', 'docker_preview_hover_only': False, 'docker_preview_text_update_color': True, 'docker_preview_icon_grayscale': False, 'docker_preview_icon_show_log': True, 'docker_preview_icon_show_webui': True, 'docker_preview_no_icon_row_count': 12, 'docker_preview_no_icon_column_count': 2, 'docker_preview_advanced_context_menu': False, 'docker_preview_advanced_context_menu_activation_mode': 'click', 'docker_preview_advanced_context_menu_graph_mode': 'none', 'docker_icon_style': 'label-tab', 'docker_expanded_style': 'right', 'docker_start_expanded': False, 'dashboard_expanded': False, 'dashboard_expanded_button': False, 'icon_animate_hover': False, 'status_icon_autostart': False, 'regex': '', 'buttons': [], 'children': []}
